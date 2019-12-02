@@ -128,9 +128,67 @@ module SimonTest;
 		// Wrap Around
 		`CLOCK;
 		`ASSERT_EQ(pattern_leds, 4'b1010, "Pattern LEDs should stay in first pattern in sequence!");
-
 		`ASSERT_EQ(mode_leds, LED_MODE_DONE, "Mode should stay in done after failed guess!");
+
+		// Wrap Around
+		`CLOCK;
+		`ASSERT_EQ(pattern_leds, 4'b1010, "Pattern LEDs should stay in first pattern in sequence!");
+		`ASSERT_EQ(mode_leds, LED_MODE_DONE, "Mode should stay in done after failed guess!");
+
+		// Reset the game
+		`SET(rst, 1);
+		`SET(level, 1);
+		`SET(pattern, 4'b0000);
+		`CLOCK;
+
+		//-----------------------------------------------
+		// Input Mode
+		// ----------------------------------------------
+		`SHOW_MODE("Input");
+		`SET(rst, 0);
+		`ASSERT_EQ(mode_leds, LED_MODE_INPUT, "Mode should be input after reset from Done state.");
+
+		// Modify Switches
+		`SET(pattern, 4'b1001);
+		`CLOCK;
+
+		//-----------------------------------------------
+		// Playback Mode
+		// ----------------------------------------------
+		`SHOW_MODE("Playback");
+
+		// Reset the game
+		`SET(rst, 1);
+		`CLOCK;
+		`ASSERT_EQ(mode_leds, LED_MODE_INPUT, "Mode should go to input after resetting.");
+
+		//-----------------------------------------------
+		// Input Mode
+		// ----------------------------------------------
+		`SHOW_MODE("Input");
+		`SET(rst, 0);
+
+		// Modify Switches
+		`SET(pattern, 4'b1001);
+		`CLOCK;
+
+		//-----------------------------------------------
+		// Playback Mode
+		// ----------------------------------------------
+		`SHOW_MODE("Playback");
+		`CLOCK;
+
+		//-----------------------------------------------
+		// Repeat Mode
+		// ----------------------------------------------
+		`SHOW_MODE("Repeat");
+
+		// Reset the game
+		`SET(rst, 1);
+		`CLOCK;
 		
+		`ASSERT_EQ(mode_leds, LED_MODE_INPUT, "Mode should be input after reset from Repeat mode.");
+
 
 		$display("\nTESTS COMPLETED (%d FAILURES)", errors);
 		$finish;

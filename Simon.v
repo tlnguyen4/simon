@@ -34,16 +34,16 @@ module Simon(
 	//--------------------------------------------
 	// IMPORTANT!!!! If simulating, use this line:
 	//--------------------------------------------
-	// wire uclk = pclk;
+	wire uclk = pclk;
 	//--------------------------------------------
 	// IMPORTANT!!!! If using FPGA, use this line:
 	//--------------------------------------------
-	wire uclk;
-	ButtonDebouncer debouncer(
-		.sysclk(sysclk),
-		.noisy_btn(pclk),
-		.clean_btn(uclk)
-	);
+	// wire uclk;
+	// ButtonDebouncer debouncer(
+	// 	.sysclk(sysclk),
+	// 	.noisy_btn(pclk),
+	// 	.clean_btn(uclk)
+	// );
 
 	//============================================
 	// End Button Debouncer Section
