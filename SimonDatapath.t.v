@@ -35,6 +35,7 @@ module SimonDatapathTest;
 	reg increment_n = 0;
 	reg increment_i = 0;
 	reg input_led_pattern = 1;
+	reg write_pattern = 1;
 	wire seq_remain;
 	wire valid_repeat;
 	wire valid_input;
@@ -67,6 +68,7 @@ module SimonDatapathTest;
 		.increment_n (increment_n),
 		.increment_i (increment_i),
 		.input_led_pattern (input_led_pattern),
+		.write_pattern (write_pattern),
 		.seq_remain (seq_remain),
 		.valid_repeat (valid_repeat),
 		.valid_input (valid_input),
@@ -92,17 +94,20 @@ module SimonDatapathTest;
 		`ASSERT_EQ(pattern_leds, pattern, "pattern_leds should be in user input pattern.");
 
 		`SET(increment_n, 1);
+		`SET(write_pattern, 1);
+
+		`ASSERT_EQ(seq_remain, 1, "seq_remain should be true (i = 0, n = 1, i < n).");
+
 		`CLOCK;
 		`SET(increment_n, 0);
+		`SET(write_pattern, 0);
 		`SET(input_led_pattern, 0);
 		`SET(clear_i, 1);
 		`CLOCK;
 
-		`ASSERT_EQ(seq_remain, 1, "seq_remain should be true (i = 0, n = 1, i < n).");
 		`ASSERT_EQ(pattern_leds, 4'b1001, "pattern_leds should be the stored patterns.");
 
 		`SET(increment_i, 1);
-		`CLOCK;
 		
 		`ASSERT_EQ(seq_remain, 0, "seq_remain should be false (i = 1, n = 1, i == n).");
 		`ASSERT_EQ(valid_repeat, 1, "valid_repeat should be true (read_data == pattern).");

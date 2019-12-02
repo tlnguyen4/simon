@@ -38,6 +38,7 @@ module SimonControlTest;
 	wire increment_i;
 	wire input_led_pattern;
 	wire [2:0] mode_leds;
+	wire write_pattern;
 
 	// LED Light Parameters
 	localparam LED_MODE_INPUT    = 3'b001;
@@ -63,6 +64,7 @@ module SimonControlTest;
 		.increment_n (increment_n),
 		.increment_i (increment_i),
 		.input_led_pattern (input_led_pattern),
+		.write_pattern(write_pattern),
 		.mode_leds (mode_leds)
 	);
 
