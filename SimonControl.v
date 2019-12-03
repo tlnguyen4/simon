@@ -91,7 +91,7 @@ module SimonControl(
 					(state == STATE_DONE && !seq_remain);
 		increment_i <= ((state == STATE_PLAYBACK) && seq_remain) || 
 						((state == STATE_REPEAT) && valid_repeat) || 
-						(state == STATE_DONE);
+						(state == STATE_DONE && seq_remain);
 		increment_n <= (state == STATE_INPUT && valid_input);
 		input_led_pattern <= (state == STATE_INPUT) || 
 							(state == STATE_REPEAT);
